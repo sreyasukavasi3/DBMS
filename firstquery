@@ -48,8 +48,8 @@ select course_id,title from course2 where dept_name='CSE' and credits=3;
 update course2 set credits=4 where dept_name='me'; 
 
 create table student2 (roll_no varchar(10), name varchar(25), state varchar(10));
-insert into student2 values(‘22’,‘dheeraj’,‘A.P’);
-insert into student2 values(‘23’,‘abhinav’,‘chennai’);
-insert into student2 values(‘22’,‘Hariharan’,‘Mumbai’);
+insert into student2 values(‘22’,‘sreya’,‘A.P’);
+insert into student2 values(‘23’,‘mahesh’,‘chennai’);
+insert into student2 values(‘22’,‘vijay’,‘Mumbai’);
 alter table student ADDCOLUMN cgpa numeric(5,2);
 update student2 set cgpa=9.4
