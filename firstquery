@@ -1,0 +1,55 @@
+﻿create table department2 (dept_name varchar(20), building varchar(15), budget integer, primary key(dept_name));
+
+create table course2 (course_id varchar(7), 
+title varchar(50),
+dept_name  varchar(20),
+credits numeric(2,0),
+primary key (course_id),
+foreign key (dept_name) references department2);
+
+create table instructor2
+(id varchar(5),
+title varchar(20) not null,
+dept_name varchar(20),
+salary numeric(8,2),
+primary key (id),
+foreign key(dept_name) references department2);
+
+insert into department2 values('CSE','main',5200);
+insert into instructor2 values('0222','A','CSE',95000);
+insert into department2 values('physics','main',5201);
+insert into department2 values('chemistry','main',5202);
+insert into department2 values('biology','main',5203);
+insert into department2 values('me','main',5204);
+
+insert into instructor2 values('0221','A','physics',85000);
+insert into instructor2 values('0223','A','chemistry',50000);
+insert into instructor2 values('0224','A','biology',105000);
+insert into instructor2 values('0225','A','me',10000);
+
+insert into course2 values('BIO-101','Intro to biology','biology', 4);
+insert into course2 values('CSE-101','Robotics','CSE', 4);
+insert into course2 values('CSE-102','Machine learning','CSE', 3);
+insert into course2 values('CSE-103','IOT','CSE', 3);
+insert into course2 values('PHY-101','Pascals law','physics', 3);
+insert into course2 values('CHE-101','Chemical changes','chemistry', 4);
+insert into course2 values('ME-101','Fluid mechanics','me', 3);
+
+
+
+select * from department2;
+select * from instructor2;
+select * from course2;
+
+select course_id,title from course2 where dept_name='CSE';
+
+select course_id,title from course2 where dept_name='CSE' and credits=3;
+
+update course2 set credits=4 where dept_name='me'; 
+
+create table student2 (roll_no varchar(10), name varchar(25), state varchar(10));
+insert into student2 values(‘22’,‘dheeraj’,‘A.P’);
+insert into student2 values(‘23’,‘abhinav’,‘chennai’);
+insert into student2 values(‘22’,‘Hariharan’,‘Mumbai’);
+alter table student ADDCOLUMN cgpa numeric(5,2);
+update student2 set cgpa=9.4
