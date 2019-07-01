@@ -1,0 +1,71 @@
+﻿create table Doctor (Did Int,
+Dname Varchar(25), 
+Specialization Varchar(20) default 'general',
+Aadhar_no  Varchar(12) unique,
+Consultation_fee NUmeric(5,2),
+Constraint c1 Check (Consultation_fee > 50),
+primary key (Did));
+
+create table Patient	(Pid Int,
+Pname Varchar(25),
+Date_of_birth Date,
+Address Varchar(20),
+primary key (Pid));
+
+
+
+create table Treat (	Did Int,
+Pid Int,
+Diagnosis Varchar(30) not null,
+Treat_id Int,
+Treat_date date,
+primary key (Treat_id),
+foreign key (Did) references Doctor,
+foreign key (Pid) references Patient
+);
+
+
+/* b */ ALTER TABLE Doctor ADD COLUMN special_fee numeric(5,2); 
+/* c */ ALTER TABLE Doctor ADD CONSTRAINT c2 Check (special_fee > consultation_fee);
+/* d */ ALTER TABLE Doctor DROP CONSTRAINT c1; 
+/* e */ ALTER TABLE Patient ADD COLUMN aadhar_number Varchar(12) unique;
+/* f */ ALTER TABLE Patient  alter column  Date_of_birth set not null;
+/* g */ ALTER TABLE Treat  add constraint con1 unique(Treat_id, Treat_date);
+/* h */ INSERT INTO Doctor (Did, Dname, Specialization, Aadhar_no, Consultation_fee, special_fee ) values (1,'Deeksha', 'Skin_Spl', 123, 200, 400), (2, 'Ranganath', 'Ear_spl',124, 300, 500);
+INSERT INTO Patient (Pid, Pname, Date_of_birth, Address,aadhar_number) values (3,'Naina','03/04/2000', 'Vijayawada', 987), (4, 'Rahul', '12/09/1999', 'Hyderabad',986);
+INSERT INTO Treat (Did, Pid,Diagnosis,Treat_id,Treat_date) values (1,3,'Yes',33,'01/01/2020');
+/* i */ SELECT * From Doctor where (Did=1);
+/* j */ delete from Doctor where (Did=2); 
+SELECT * From Doctor;
+/* k */ delete from Treat where (Pid=3); 
+delete from Patient where (Pid=3); 
+SELECT * From Patient;
+/* l */	ALTER TABLE Doctor
+ADD city varchar(25);
+/* m */ select Dname from Doctor where Dname like 'K%n';
+/* n */ select Pname from Patient where length(Pname)=3 and Pname like 'A%';
+/* o */ select Dname from Doctor where Dname like 'J%' or Dname like 'L%';
+/* p */ select Dname from Doctor where Specialization = 'E.N.T' and Consultation_fee > 60;
+/* q */ select Dname from Doctor where Specialization = 'E.N.T' or Consultation_fee > 60;
+/* r */ select Dname from Doctor where Consultation_fee >50 and Consultation_fee<100;
+/* s */ SELECT * FROM Doctor ORDER BY Dname DESC;
+/* t */ select * from Doctor order by Dname Desc ,city desc;
+/* u */ select Specialization from Doctor;
+/* v */ SELECT DISTINCT Specialization FROM Doctor ORDER BY SPECIALIZATION;
+/* w */ SELECT COUNT(Did) FROM Doctor WHERE (Did>0); 
+/* x */ SELECT COUNT(Did) from Doctor where (specialization = 'E.N.T');
+/* y */ select count(Pid) from Treat where (Did=1);
+/* z */ SELECT MAX(Consultation_fee) FROM Doctor WHERE Consultation_fee>0;
+/* aa*/ SELECT Dname FROM Doctor WHERE Specialization IN ('E.N.T','Cardiac','Paediatrics'); 
+/* bb*/ SELECT MAX(Consultation_fee) FROM Doctor WHERE Consultation_fee>0 ;
+        SELECT MIN(Consultation_fee) FROM Doctor WHERE Consultation_fee>0 ;
+/* cc*/ SELECT AVG(Consultation_fee) FROM Doctor WHERE Consultation_fee>0; 
+/* dd*/ SELECT SUM(special_fee) FROM Doctor WHERE (Specialization = 'Paediatrics' );
+/* ee */ alter table Doctor rename column Dname to Doctor_name; 
+/* ff */ SELECT *, (special_fee+Consultation_fee) as total_fee FROM Doctor;
+/* gg */ select COUNT(Did) from Doctor where Aadhar_no = '';
+/* hh */ select COUNT(Did) from Doctor where Aadhar_no > '';
+/*/ ii */ select Doctor_name from Doctor where Consultation_fee>100 and specialization =  'Accounts' or city = 'Kollam';
+/* jj */ select Doctor_name from Doctor where Consultation_fee<100 or specialization =  'Accounts' and city = 'Kollam';
+/* kk */ select * from doctor order by 3;
+/* ll */ SELECT CONCAT(Doctor_name, ' is  specialized in ', Specialization) AS Doctor_name FROM doctor;
