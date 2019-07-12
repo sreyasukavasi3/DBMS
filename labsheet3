@@ -1,92 +1,60 @@
-﻿
-create table cust
-(
-	custid varchar(20),
-	lname varchar(20),
-	fname varchar(20),
-	area  varchar(2),
-	phoneno numeric(8,0),
-	primary key(custid));
+create table Cust( custid varchar(3),
+   Lname Varchar(15),
+   Fname Varchar(15),
+   area Varchar(2),
+   phoneno NUmeric(8,0),
+   primary key (custid));
 
-select * from cust;
- insert into cust values('A01','Bayross','ivan','sa',6125467);
- insert into cust values('A02','saitwal','vandana','mu',5506379);
- insert into cust values('A03','jaguste','pramada','da',4563891);
- insert into cust values('A04','navindgi','basu','ba',6125401);
- insert into cust values('A05','sreedhar','ravi','va',NULL);
- insert into cust values('A06',null,'rukmini','gh',5125274);
- 
- 
-delete  from cust where custid = 'A0';
-delete  from cust where lname = 'Bayross';
-select * from cust;
 
-create table movie 
-(
-	Mvno numeric(2,0),
-	title varchar(20),
-	type varchar(20),
-	star varchar(20),
-	price numeric(8,2),
-	primary key(Mvno));
-select * from movie;
+create table Movie( Mvno  NUmeric(2,0),
+   title Varchar(25),
+   type Varchar(10),
+   star Varchar(25),
+   price NUmeric(8,2),
+   primary key (Mvno));
 
-insert into movie values('1','Bloody Vengeance','action','jackie chan',100.00);
-insert	into movie values('2','The Firm','thriller','tom cruise',200.00);
-insert into movie values('3','Pretty Woman','romance','richrad gere',150.00);
-insert into movie values('4','Home Alone','comedy','macaulay culkin',150.55);
-insert into movie values('5','The Fugitive','thriller','harrison ford',200.00);
-insert into movie values('6','Coma','suspense','michael doudlas',100.00);
-insert into movie values('7','Coma','horror','Gary Oldman',150.25);
-insert into movie values('8','Quick change','comedy','Bill Murray',100.00);
-insert into movie values('9','Gone with the wind','drama','Clarke Gable',200.00);
-insert into movie values('10','Carry on Doctor','comedy','Leslie Phillips',100.00);
+create table  Invoice( Invno  Varchar(3),
+   Mvno NUmeric(2,0),
+   custid Varchar(3),
+   issueDate Date,
+   retDate Date,
+   primary key (Invno),
+   foreign key(Mvno) references Movie,
+   foreign key(custid) references Cust
+   );
 
-create table invoice
-(
-	invno varchar(3),
-	Mvno Numeric(2,0),
-	custid varchar(3),
-	issuedate date,
-	retdate   date,
-	primary key(invno),
-	foreign key(Mvno) references movie,
-	foreign key(custid) references cust); 
-select * from invoice;
+ INSERT INTO Cust (custid, Lname, Fname, Area, PhoneNo ) values ('A01','Bayross', 'Ivan', 'sa', 6125467), ('A02', 'Saitwal', 'Vandana','mu', 5560379), ('A03', 'Jaguste', 'Pramada','da', 4563891), ('A04', 'Navindgi', 'Basu','ba', 6125401),('A05', 'Sreedhar', 'Ravi','va', NULL), ('A06', null, 'Rukmini','gh', 5125274);
+ INSERT INTO Movie (mvno,title,type,star,price) values (1,'Bloody Vengeance','action','Jackie Chan',100.00), (2,'The Firm ','thriller','Tom cruise',200.00), (3,'Pretty Woman','romance','Richard Gere',150.00), (4,'Home Alone','Comedy','Macaulay Cilkin',150.55), (5,'The Fugitive','Thriller','Harrison Ford',200.00), (6,'Coma','Suspense','Michael Douglas',100.00), (7,'Dracula','Horror','Gary Oldman',150.25),  (8,'Quick change','Comedy','Bill Murray', 100.00), (9,'Gone with the wind','Drama','Clarke Gable',200.00), (10,'Carry on Doctor', 'Comedy', 'Leslie Phillips', 100.00);
+ insert into invoice(invno, mvno, custid, issueDate, retDate) values ('i01', 4 ,'A01', '23-jul-2012', '25-jul-2012');
+insert into invoice(invno, mvno, custid, issueDate, retDate) values ('i02', 3 ,'A02', '12-aug-2012', '15-aug-2012');
+insert into invoice(invno, mvno, custid, issueDate, retDate) values ('i03', 1 ,'A02', '15-aug-2012 ', '18-aug-2012');
+insert into invoice(invno, mvno, custid, issueDate, retDate) values ('i04', 6 ,'A03', '10-sep-2012 ', '13-sep-2012');
+insert into invoice(invno, mvno, custid, issueDate, retDate) values ('i05', 7 ,'A04', '05-aug-2012', '08-aug-2012');
+insert into invoice(invno, mvno, custid, issueDate, retDate) values ('i06', 2 ,'A06', '18-sep-2012', '20-sep-201');
+insert into invoice(invno, mvno, custid, issueDate, retDate) values ('i07', 9 ,'A05', '07-jul-2012', '10-jul-2012');
+insert into invoice(invno, mvno, custid, issueDate, retDate) values ('i08', 9 ,'A01', '11-aug-2012 ', '14-aug-2012');
+insert into invoice(invno, mvno, custid, issueDate, retDate) values ('i09', 5 ,'A03', '06-jul-2012', '09-jul-2012');
+insert into invoice(invno, mvno, custid, issueDate, retDate) values ('i10', 8 ,'A06', '03-sep-2012', '06-sep-2012 ');
 
-insert into invoice values('i01',4,'A01','23-jul-2012','25-jul-2012');
-insert into invoice values('i02',3,'A02','12-aug-2012','15-aug-2012');
-insert into invoice values('i03',1,'A02','15-aug-2012','18-aug-2012');
-insert into invoice values('i04',6,'A03','10-sep-2012','13-sep-2012');
-insert into invoice values('i05',7,'A04','05-aug-2012','08-aug-2012');
-insert into invoice values('i06',2,'A06','18-sep-2012','20-sep-2012');
-insert into invoice values('i07',9,'A05','07-jul-2012','10-jul-2012');
-insert into invoice values('i08',9,'A01','11-aug-2012','14-aug-2012');
-insert into invoice values('i09',5,'A03','06-jul-2012','09-jul-2012');
-insert into invoice values('i10',8,'A06','03-sep-2012','06-sep-2012');
-
-/*q1*/select lname from cust; 
-/*q2*/select * from cust;
-/*q3*/select fname,area from cust;
-/*q4*/select title from movie;
-/*q5*/select lname from cust where lname like '_a%';
-/*q6*/select lname from cust where lname like 's%' or lname  like 'j%';
-/*q7*/select lname from cust where area like '_a%';
-/*q8*/select lname from cust where area like 'ba%' or area like  'mu%'or  area like 'gh%';
-/*q9*/select * from cust where phoneno is null;
-/*q10*/select issuedate from invoice where  issuedate like '___s%';
-/*q11*/select * from invoice where custid in('A01', 'A02');
-/*q12*/select title from movie where type in('action','comedy');
-/*q13*/select title from movie where price >= 150 and price <= 200; 
-/*q14*/select 15*price  from movie where price > 159;
-/*q15*/alter table movie add newprice varchar(20);
-/*continue for q15*/ update movie set newprice=15*price where price>159;
-	select * from movie;
-/*q16*/select title from movie order by movie;
-/*q17*/select title,type from movie where not type='horror';
-/*q18*/select sqrt(price) from movie;
-/*q19*/select avg(price) from movie;
-/*19 continue*/select type from movie;
+/* 1 */ select Lname from Cust;
+/* 2 */ select * from Cust;
+/* 3 */ select fname, area from Cust;
+/* 4 */ select type from Movie;
+/* 5 */ select Fname from Cust where SUBSTR(Fname,2,1) = 'a';
+/* 6 */ select Lname from Cust where Lname like 'S%' or Lname like 'J%';
+/* 7 */ select Lname from Cust where SUBSTR(area,2,1) = 'a';
+/* 8 */ select lname from Cust where (area ='ba'or area='mu'or area= 'gh');
+/* 9 */ select Lname from Cust where (PhoneNo is null);  
+/* 10*/ select * from invoice where extract ( month from issueDate) = 09;                                                                                                                  
+/*11*/ select * from invoice where custid in ('A01','A02');
+/*12*/ select title from movie where type='action' or type = 'Comedy';
+/*13*/ select title from movie where price >150 and price <=200;
+/*14*/ select price*15 from movie where price >159;
+/*15*/ select price*15 "NEW_PRICE" from movie where price>159;
+/*16*/ select * from movie order by title;
+/*17*/ select title,type from movie where type<>'horror';
+/*18*/ select sqrt(price) from movie;
+/*19*/ select type,avg(price) from movie group by type;
 /*q20*/select avg(price) from movie  where max(price);
 /*q21*/select cust.lname,movie.title from cust,movie,invoice where cust.custid=invoice.custid and invoice.mvno=movie.mvno;
 /*q22*/select lname,area,custid from cust where phoneno is null;
@@ -95,7 +63,7 @@ insert into invoice values('i10',8,'A06','03-sep-2012','06-sep-2012');
 /*q24*/update cust set area  ='vs' where custid = 'A05';
 	select * from cust;
 /*q25*/select movie.title,invoice.mvno,invoice.custid from movie,invoice where invoice.mvno=movie.mvno and invoice.issuedate is not null;
-/*q26*/SELECT DATENAME(month, @select retdate from invoice) AS Result;
+/*q26*/SELECT DATENAME(month, select retdate from invoice) AS Result;
 /*q27*/select movie.title,invoice.custid from movie,invoice where star ='amir' and invoice.mvno=movie.mvno;
 /*q28*/select movie.title,cust.fname from movie,cust,invoice where cust.fname ='vandana' and invoice.mvno = movie.mvno and invoice.custid = cust.custid;
 /*q29*/alter table invoice add column remark varchar(25);
