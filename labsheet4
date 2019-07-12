@@ -1,5 +1,7 @@
+
 create table Employee(employee_id varchar(15),ename varchar(20), date_of_birth date, salary numeric(9,2));
 insert into Employee values('as123','reed','1957-05-12',5000);
+ 
 insert into Employee values('as007','DREW','1999-04-04',4000.01256),('as149','andy','19787-10-12',2500.06);
 select ceil(salary) from Employee;
 select floor(salary) from Employee;
