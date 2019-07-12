@@ -1,1 +1,22 @@
-
+create table Employee(employee_id varchar(15),ename varchar(20), date_of_birth date, salary numeric(9,2));
+insert into Employee values('as123','reed','1957-05-12',5000);
+insert into Employee values('as007','DREW','1999-04-04',4000.01256),('as149','andy','19787-10-12',2500.06);
+select ceil(salary) from Employee;
+select floor(salary) from Employee;
+select round(salary,2) from Employee;
+select * from Employee where salary>100;
+select * from Employee where ename = lower(ename);
+select ename,length(ename) from Employee;
+select lpad(ename,6,'*') from Employee;
+insert into Employee values('as009','Angelo  ','2000-11-08',6000.25),('as156','  mike','1998-05-05',6000.52);
+select rtrim(ename) from Employee;
+select ltrim(ename) from Employee;
+select substring(ename,2,4) from Employee;
+select to_char(date_of_birth,'Month DD, YYYY') from Employee;
+select to_date('20170103','YYYYMMDD');
+select to_date('2017 Feb 20','YYYY Mon DD');
+select * from Employee where extract(month from date_of_birth) = 1;
+create table Department(depname varchar(25),location varchar(25), budget numeric(10));
+create table Instructor(id numeric(3);iname varchar(25),designation varchar(20), salary numeric(10), depname varchar(25));
+create table Course(CCode varchar(10) primary key, ctitle varchar(25), credits numeric(25),depname(10));
+create table Section(section_id numeric(5), )
