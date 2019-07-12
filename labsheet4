@@ -17,6 +17,6 @@ select to_date('20170103','YYYYMMDD');
 select to_date('2017 Feb 20','YYYY Mon DD');
 select * from Employee where extract(month from date_of_birth) = 1;
 create table Department(depname varchar(25),location varchar(25), budget numeric(10));
-create table Instructor(id numeric(3);iname varchar(25),designation varchar(20), salary numeric(10), depname varchar(25));
+create table Instructor(id numeric(3),iname varchar(25),designation varchar(20), salary numeric(10), depname varchar(25));
 create table Course(CCode varchar(10) primary key, ctitle varchar(25), credits numeric(25),depname(10));
 create table Section(section_id numeric(5), )
