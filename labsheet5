@@ -1,1 +1,145 @@
 
+﻿create table Department
+(
+dname varchar(20) Primary key,
+location varchar(15),
+budget numeric(19,3)
+)
+
+create table Instructor
+(
+id integer primary key,
+iname varchar(20),
+designation varchar(25),
+salary numeric(9,2),
+depname varchar(10),
+foreign key(depname) references Department
+)
+
+create table Course
+(
+ccode varchar(5) primary key,
+ctitle varchar(15),
+credits integer,
+depname varchar(10),
+foreign key(depname) references Department
+)
+
+create table Section
+(
+section_id varchar(5),
+ccode varchar(15),
+sem varchar(2),
+year integer,
+romm_no integer,
+foreign key(ccode) references Course,
+Primary key(section_id,ccode,sem,year)
+)
+
+create table Teach
+(
+id integer,
+section_id varchar(5),
+ccode varchar(15),
+sem varchar(2),
+year integer,
+foreign key(id) references Instructor,
+foreign key(section_id,ccode,sem,year) references Section,
+Primary key(id,section_id,ccode,sem,year)
+)
+
+create table Student
+(
+sid integer primary key,
+sname varchar(25),
+date_of_birth date,
+depname varchar(10),
+foreign key(depname) references Department
+)
+
+create table Take
+(
+sid integer,
+section_id varchar(5),
+ccode varchar(15),
+sem varchar(2),
+year integer,
+grade varchar(2),
+foreign key(section_id,ccode,sem,year) references Section,
+foreign key(sid) references Student,
+Primary key(sid,section_id,ccode,sem,year)
+)
+insert into Instructor values('1','Ray Blackwell','Professor',65000,'csc');
+insert into Instructor values('2','Orange tsai','Professor',65000,'goerge');
+insert into Instructor values('3','Mary klutz','Professor',75000,'lolan');
+insert into Instructor values('4','Kevin Mitnick','Professor',60000,'english');
+insert into Instructor values('5','Bronson Mitchell','Professor',60000,'maths');
+insert into Instructor values('6','Ananya Bansal','Professor',65000,'goerge');
+insert into Instructor values('7','Nova everlan','Professor',65000,'maths');
+insert into Instructor values('8','Aira Harune','Professor',65000,'csc');
+
+insert into Course values('cs103','Intro to comp',3,'csc');
+insert into Course values('cs206','ML',3,'csc');
+insert into Course values('en103','Advanced eng',3,'english');
+insert into Course values('ma101','Li Algebra',4,'maths');
+insert into Course values('ge201','Geography',2,'goerge');
+insert into Course values('os201','os',2,'csc');
+
+
+
+insert into Section values('101','cs103','s1',2018,1);
+insert into Section values('102','cs103','s1',2018,2);
+insert into Section values('101','en103','s2',2018,3);
+insert into Section values('104','ge201','s1',2018,4);
+insert into Section values('104','os201','s1',2018,4);
+
+
+insert into Teach values(1,'101','cs103','s1',2018);
+insert into Teach values(3,'101','cs103','s1',2018);
+insert into Teach values(4,'101','en103','s2',2018);
+insert into Teach values(6,'104','ge201','s1',2018);
+insert into Teach values(1,'104','os201','s1',2018);
+
+
+insert into student values(256,'Adam','6-5-1999','csc');
+insert into student values(257,'Johnson','6-25-1999','english');
+insert into student values(258,'Vlad','6-9-1999','goerge');
+insert into student values(259,'Ren Hitoshi','4-19-1999','maths');
+
+insert into take values(256,101,'cs103','s1',2018,'A+');
+insert into take values(257,101,'en103','s2',2018,'A+');
+insert into take values(258,104,'ge201','s1',2018,'A');
+
+
+
+
+select iname,location from Instructor,Department where Department.dname=Instructor.depname;
+select iname, ctitle from Instructor natural join Teach, Course where Teach.ccode= Course.ccode;
+
+alter table Instructor add column gender varchar(2);
+update Instructor set gender='M';
+update Instructor set gender='F' where id=6;
+update Instructor set gender='F' where id=7;
+update Instructor set gender='F' where id=8;
+
+select iname,ctitle,Teach.ccode from Instructor natural join Teach,Course where Teach.ccode=Course.ccode and Instructor.gender='F';
+
+select ctitle, budget from Course,Department where Department.dname=Course.depname;
+
+select iname from Instructor natural join Teach,Course where Course.ctitle='os' and Course.ccode=Teach.ccode and Teach.id=Instructor.id;
+
+select iname, Teach.ccode from Instructor natural join Teach where Instructor.id = teach.id and Teach.year=2016;
+
+select iname from Instructor natural join Teach where Teach.id=Instructor.id and Instructor.depname='cs' and Teach.year=2016;
+
+select sname from student natural join take,Course where student.sid=take.sid and take.ccode=Course.ccode and Course.title='dbms' and take.grade='A';
+
+select sid from take natural join Course where take.id=Course.id and Course.ctitle='dbms';
+
+select id,count(ccode) from Teach group by id;
+
+select id,count(ccode) from Teach group by id where year=2017;
+
+select iname from Instructor natural join Department where Instructor.depname=Department.dname and department.location='Main';
+
+select iname form Instructor natural join Teach,Course where Instructor.id=Teach.id and Teach.sem=2 and Instructor.depname='cs' and Teach.ccode=Course.ccode and Course.ctitle='c programming';
