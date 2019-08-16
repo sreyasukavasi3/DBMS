@@ -1,0 +1,42 @@
+
+
+
+
+create table student1(
+	id Int,
+	name Varchar(25),
+	street Varchar(20),
+	city varchar(20),
+	tot_credits int ;
+	
+
+create table instructor1(
+	id Int,
+	name Varchar(25),
+	street Varchar(20),
+	city varchar(20),
+	salary int,
+	rank int);
+
+create table secretary1 (
+	id Int,
+	name Varchar(25),
+	street Varchar(20),
+	city varchar(20),
+	salary int,
+	hours_per_work numeric(2,2));
+
+
+
+
+
+
+	
+insert into student1(id,name,street, city,tot_credits) values (1,'sreya','darsipeta','vij',14),(2,'Meghana','NSM','vij',12),(3,'Sravya','MG_Road','vij',16);
+insert into instructor1(id,name,street,city,salary,rank) values (11,'Suresh','abc', 'hyd',50000,1), (12, 'Lakshmi','xyz','hyd',60000,2);
+insert into secretary1 (id,name,street,city,salary,hours_per_week) values (111,'Rahul','bcd','kochi',100000,12), (112, 'Naina', 'xyy','tvd',200000,13);
+
+
+
+
+create table Employee(FName varchar(15),Minit varchar(20), lName varchar(20),Bbirth date, salary numeric(9,2));
