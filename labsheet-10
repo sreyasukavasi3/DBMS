@@ -1,125 +1,92 @@
-drop table Instructor cascade
-drop table Department cascade
-create table Department
-(
-dname varchar(20) Primary key,
-location varchar(15),
-budget numeric(19,3)
-)
+﻿﻿select * from department;
+select * from course;
+select * from teach;
+select * from section;
+select * from student;
+select * from take;
+select * from instructor;
+/*1*/
+insert into instructor
+values('132','Dr. James','AProfessor',135000,null);
+select * from instructor where depname is null;
 
-create table Instructor
-(
-id integer primary key,
-iname varchar(20),
-designation varchar(25),
-salary numeric(9,2),
-depname varchar(10),
+/*2*/
+select * from instructor where depname is not null;
 
-foreign key(depname) references Department
-)
+/*3*/
+select depname,count(*) from teach natural join course where year=2010 and sem=2
+group by depname;
 
-create table Course
-(
-ccode varchar(5) primary key,
-ctitle varchar(15),
-credits integer,
-depname varchar(10),
-foreign key(depname) references Department
-)
+/*4*/
+select ccode from teach where sem=2 and year=2009 and ccode not in (select ccode from teach where sem=2 and year=2010);
 
-create table Section
-(
-section_id varchar(5),
-ccode varchar(15),
-sem varchar(2),
-year integer,
-romm_no integer,
-foreign key(ccode) references Course,
-Primary key(section_id,ccode,sem,year)
-)
+/*5*/
+select depname from instructor group by depname having avg(salary)>=all(select avg(salary) from instructor group by depname);
 
-create table Teach
-(
-id integer,
-section_id varchar(5),
-ccode varchar(15),
-sem varchar(2),
-year integer,
-foreign key(id) references Instructor,
-foreign key(section_id,ccode,sem,year) references Section,
-Primary key(id,section_id,ccode,sem,year)
-)
+/*6 Here sem=fall is 4 and sem=Spring */
+select course_id
+		from section as S
+		where semester=’4’ and year=2009
+		and exists 
+         (select * 
+         from section as T
+		where semester=’5’ and year=2010 and
+		S.course_id =T.course_id)
+/*7 */
+select T.ccode
+from course as T 
+where unique(select R.ccode
+from section as R
+where T.course_id=R.ccode and R.year=2009);
+/*
+create user user2 password 'user2'
+grant select on instructor to user2
+revoke select on instructor from user2
 
-create table Student
-(
-sid integer primary key,
-sname varchar(25),
-date_of_birth date,
-depname varchar(10),
-foreign key(depname) references Department
-)
+create user user1 password 'user1'
+grant select on instructor to user1 
+revoke select on instructor from user1
+*/
+/*8 */
+select dept_name, avg_salary
+	from (select dept_name, avg(salary) as avg_salary
+      from instructor group by dept_name)
+	where avg_salary>42000;
+/*9*/
+select max(tot_salary)
+	from (select dept_name, sum(salary) as tot_salary from  instructor group by dept_name);
 
-create table Take
-(
-sid integer,
-section_id varchar(5),
-ccode varchar(15),
-sem varchar(2),
-year integer,
-grade varchar(2),
-foreign key(section_id,ccode,sem,year) references Section,
-foreign key(sid) references Student,
-Primary key(sid,section_id,ccode,sem,year)
-)
-insert into Instructor values('1','Ray Blackwell','Professor',65000,'csc');
-insert into Instructor values('2','Orange tsai','Professor',65000,'goerge');
-insert into Instructor values('3','Mary klutz','Professor',75000,'lolan');
-insert into Instructor values('4','Kevin Mitnick','Professor',60000,'english');
-insert into Instructor values('5','Bronson Mitchell','Professor',60000,'maths');
-insert into Instructor values('6','Ananya Bansal','Professor',65000,'goerge');
-insert into Instructor values('7','Nova everlan','Professor',65000,'maths');
-insert into Instructor values('8','Aira Harune','Professor',65000,'csc');
+/*10*/
+with max_budget(value) as 
+     (select max(budget) from department) 
+  select budget from department, max_budget where   
+  deparment.budget=max_budget.value;
 
-insert into Course values('cs103','Intro to comp',3,'csc');
-insert into Course values('cs206','ML',3,'csc');
-insert into Course values('en103','Advanced eng',3,'english');
-insert into Course values('ma101','Li Algebra',4,'maths');
-insert into Course values('ge201','Geography',2,'goerge');
-insert into Course values('os201','os',2,'csc');
+/*11*/
+with dept_total(dept_name, value) as (select dept_name, sum(salary) from instructor group by dept_name),
+dept_total_avg(value) as 
+(select avg(value) from dept_total)
+ select dept_name 
+ from dept_total, dept_total_avg 
+ where dept_total.value > = dept_total_avg.value;
 
+ /*12*/
+  select dept_name, (select count(*) from insructor where department.dept_name=instructor.dept_name) as num_instructors from department;
 
+ /*13*/
+ Create view  faculty as select id, name,dept_name from instructor
 
-insert into Section values('101','cs103','s1',2018,1);
-insert into Section values('102','cs103','s1',2018,2);
-insert into Section values('101','en103','s2',2018,3);
-insert into Section values('104','ge201','s1',2018,4);
-insert into Section values('104','os201','s1',2018,4);
+ /*14*/
+ create view physics_2009 as select course.course_id,sec_id,building,room_number from course,section where course.course_id=section.course_id and course.dept_name=’Physics’ and section.semester=’second’ and section.year=209. 
+
+ /*15*/
+ Create view dept_tot_sal(dept_name,tot_salary) as select dept_name, sum(salary) from instructor group by dept_name;
+
+insert into faculty values(‘12121’,’Ram’,’Music’);
+For salary null value would be inserted.
+
+select * from faculty;
+
+select course_id from physics_2009 where building =’Watson’; 
 
 
-insert into Teach values(1,'101','cs103','s1',2018);
-insert into Teach values(3,'101','cs103','s1',2018);
-insert into Teach values(4,'101','en103','s2',2018);
-insert into Teach values(6,'104','ge201','s1',2018);
-insert into Teach values(1,'104','os201','s1',2018);
-
-
-insert into student values(256,'Adam','6-5-1999','csc');
-insert into student values(257,'Johnson','6-25-1999','english');
-insert into student values(258,'Vlad','6-9-1999','goerge');
-insert into student values(259,'Ren Hitoshi','4-19-1999','maths');
-
-insert into take values(256,101,'cs103','s1',2018,'A+');
-insert into take values(257,101,'en103','s2',2018,'A+');
-insert into take values(258,104,'ge201','s1',2018,'A');
-
-
-
-select * from Instructor
-alter table instructor add column deptNo varchar(10)
-update  instructor set deptNo= 'CSE1' where Depname = 'csc'
-update instructor set deptNo= 'ENG1' where Depname = 'english'
-update instructor set deptNo= 'MAT1' where Depname = 'maths'
-update instructor set deptNo= 'gOE1' where Depname = 'goerge'
-delete from instructor where depname = 'lolan'
-select iname from instructor where deptNo is null
-select iname from instructor where deptNo notnull
